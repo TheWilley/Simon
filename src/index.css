@@ -11,15 +11,15 @@
 
 .initialBoard {
   position: fixed;
-  visibility: hidden
+  visibility: hidden;
 }
 
 .tableflip {
-  animation: tableflip 0.9s cubic-bezier(.59,.29,.7,.95) forwards;
+  animation: tableflip 0.9s cubic-bezier(0.59, 0.29, 0.7, 0.95) forwards;
 }
 
 .reverseTableflip {
-  animation: reverseTableflip 0.9s cubic-bezier(.59,.29,.7,.95) forwards;
+  animation: reverseTableflip 0.9s cubic-bezier(0.59, 0.29, 0.7, 0.95) forwards;
 }
 
 .fadeOut {
@@ -37,29 +37,61 @@
 }
 
 @keyframes tableflip {
-  0% {transform: translate(0px, 0px)}
-  30% {transform: translate(0px, -100px) rotate3d(1,1,1,130deg); filter: grayscale(100%)}
-  99.999% {transform: translate(0px, calc(100vh)) rotate3d(1,1,1,400deg); filter: grayscale(100%); position: relative}
-  100% {position: fixed; visibility: hidden}
+  0% {
+    transform: translate(0px, 0px);
+  }
+  30% {
+    transform: translate(0px, -100px) rotate3d(1, 1, 1, 130deg);
+    filter: grayscale(100%);
+  }
+  99.999% {
+    transform: translate(0px, calc(100vh)) rotate3d(1, 1, 1, 400deg);
+    filter: grayscale(100%);
+    position: relative;
+  }
+  100% {
+    position: fixed;
+    visibility: hidden;
+  }
 }
 
 @keyframes reverseTableflip {
-  from{transform: translate(0px, calc(100vh)) rotate3d(1,1,1,400deg)}
-  to {transform: translate(0px, 0px) rotate3d(0,0,0,0deg); position: relative; visibility: visible}
+  from {
+    transform: translate(0px, calc(100vh)) rotate3d(1, 1, 1, 400deg);
+  }
+  to {
+    transform: translate(0px, 0px) rotate3d(0, 0, 0, 0deg);
+    position: relative;
+    visibility: visible;
+  }
 }
 
 @keyframes fadeOut {
-  0% {opacity: 1;}
-  100% {opacity: 0}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes flash {
-  0% {filter: brightness(100%)}
-  50% {filter: brightness(200%)}
-  100% {filter: brightness(100%)}
+  0% {
+    filter: brightness(100%);
+  }
+  50% {
+    filter: brightness(200%);
+  }
+  100% {
+    filter: brightness(100%);
+  }
 }
