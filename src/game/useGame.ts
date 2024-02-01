@@ -39,6 +39,7 @@ export default function useGame() {
   // HOOKS
   const [play] = useSound(dial, {
     playbackRate,
+    interrupt: true
   });
 
   // Class specifics - used for animation
