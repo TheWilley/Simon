@@ -27,4 +27,4 @@ $ npm run preview
 $ npm run dev
 ```
 ## License
-[MIT]()
+[MIT](https://raw.githubusercontent.com/TheWilley/simon-says/main/LICENSE)
