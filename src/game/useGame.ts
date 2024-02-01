@@ -96,7 +96,6 @@ export default function useGame() {
    * Starts the game.
    */
   const start = useCallback(() => {
-    setRound(1);
     setGameStarted(true);
     addRandomNoteToSequence();
     animationsHandler.showBoard();
@@ -112,6 +111,7 @@ export default function useGame() {
     setCurrentNoteInSequence({ value: -1 });
     setGameIsWon(true);
     animationsHandler.showStart();
+    setRound(1);
   }, []);
 
   /**
