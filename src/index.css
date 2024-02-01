@@ -3,7 +3,18 @@
 @tailwind utilities;
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #121212;
+  overflow: hidden;
+}
+
+.tableflip {
+  animation: tableflip 0.9s cubic-bezier(.59,.29,.7,.95) forwards;
+}
+
+@keyframes tableflip {
+  0% {transform: translate(0px, 0px)}
+  30% {transform: translate(0px, -100px) rotate3d(1,1,1,130deg); filter: grayscale(100%)}
+  100% {transform: translate(0px, 500px) rotate3d(1,1,1,400deg); filter: grayscale(100%)}
 }
