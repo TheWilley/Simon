@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import dial from '../sounds/dial.mp3';
+import boop from '../sounds/boop.mp3';
+import loose from '../sounds/loose.mp3';
+import win from '../sounds/win.mp3';
 import { useLocalStorage } from '@uidotdev/usehooks';
 
 function getRandomInt(min: number, max: number) {
@@ -34,10 +36,13 @@ export default function useGame() {
   const [playbackRate, setPlaybackrate] = useState<number>(0.75);
 
   // HOOKS
-  const [play] = useSound(dial, {
+  const [boopSound] = useSound(boop, {
+    volume: 0.5,
     playbackRate,
     interrupt: true
   });
+  const [looseSound] = useSound(loose, {volume: 0.5});
+  const [winSound] = useSound(win, {volume: 0.3});
 
   // Class specifics - used for animation
   const animationsHandler = {
@@ -66,7 +71,7 @@ export default function useGame() {
       await delay(1000);
       setCurrentNoteInSequence({ value });
       setPlaybackrate(1 + value * 0.3);
-      play();
+      boopSound();
     }
     await delay(500);
     setAllowUserInput(true);
@@ -87,9 +92,8 @@ export default function useGame() {
     (value: number) => {
       setUserNotes([...userNotes, value]);
       setPlaybackrate(1 + value * 0.3);
-      play();
     },
-    [play, userNotes]
+    [boopSound, userNotes]
   );
 
   /**
@@ -127,12 +131,22 @@ export default function useGame() {
    */
   useEffect(() => {
     if (generatedNotes.length > 0) {
-      const gameIsLost = arraysAreEqualSoFar(userNotes, generatedNotes);
-      setGameIsWon(gameIsLost);
-      if (userNotes.length === generatedNotes.length && gameIsLost) {
+      const gameCanContinue = arraysAreEqualSoFar(userNotes, generatedNotes);
+      setGameIsWon(gameCanContinue);
+
+      // If we should play loose or win sound
+      if(gameCanContinue) {
+        boopSound();
+      } else {
+        looseSound();
+      }
+
+      // Check if we can continue to the next round
+      if (userNotes.length === generatedNotes.length && gameCanContinue) {
         addRandomNoteToSequence();
         setUserNotes([]);
         setRound(round + 1);
+        winSound();
       }
     }
   }, [JSON.stringify(userNotes)]);
