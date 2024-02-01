@@ -5,7 +5,7 @@ This is a React implementation of the game "Simon Says" where a sequence is play
 The game was made to sharpen my React knowledge and because it's fun. 
 
 ## How To Use
-Simply go to the [official webpage]() to get started, ro run the app yourself by following these steps:
+Simply go to the [official webpage](https://thewilley.github.io/simon-says/) to get started, ro run the app yourself by following these steps:
 
 ```bash
 # Clone this repository
