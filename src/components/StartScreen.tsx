@@ -11,7 +11,7 @@ function StartScreen(props: {
       <div className='text-white font-bold mb-2'> HIGHSCORE: {props.highscore} </div>
       <button
         ref={props.forwardRef}
-        disabled={props.round > 0}
+        disabled={props.round > 1}
         onClick={() => props.start()}
         className='inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-lg md:text-xl text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800'
       >

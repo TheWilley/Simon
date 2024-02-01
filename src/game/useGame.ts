@@ -27,7 +27,7 @@ export default function useGame() {
   const [currentNoteInSequence, setCurrentNoteInSequence] = useState<{ value: number }>({
     value: 0,
   });
-  const [round, setRound] = useState<number>(0);
+  const [round, setRound] = useState<number>(1);
   const [generatedNotes, setgeneratedNotes] = useState<number[]>([]);
   const [userNotes, setUserNotes] = useState<number[]>([]);
   const [gameIsWon, setGameIsWon] = useState<boolean>(true);
@@ -96,6 +96,7 @@ export default function useGame() {
    * Starts the game.
    */
   const start = useCallback(() => {
+    setRound(1);
     setGameStarted(true);
     addRandomNoteToSequence();
     animationsHandler.showBoard();
@@ -106,7 +107,6 @@ export default function useGame() {
    */
   const resetGame = useCallback(() => {
     setGameStarted(false);
-    setRound(0);
     setgeneratedNotes([]);
     setUserNotes([]);
     setCurrentNoteInSequence({ value: -1 });
