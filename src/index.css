@@ -50,14 +50,12 @@
 
 @keyframes fadeOut {
   0% {opacity: 1;}
-  99.99% {opacity: 0; position: relative}
-  100% {position: fixed; visibility: hidden}
+  100% {opacity: 0}
 }
 
 @keyframes fadeIn {
   0% {opacity: 0;}
-  99.99% {opacity: 1;}
-  100% {opacity: 1; position: relative; visibility: visible}
+  100% {opacity: 1;}
 }
 
 @keyframes flash {
