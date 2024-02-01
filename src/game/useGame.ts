@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import useSound from 'use-sound';
 import dial from '../sounds/dial.mp3';
+import startButton from '../components/StartButton.tsx';
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min: number, max: number) {
@@ -19,7 +20,8 @@ function delay(time: number) {
 
 export default function useGame() {
     const boardRef = useRef<HTMLDivElement>(null);
-    const [allowUserInput, setAllowUserInput] = useState<boolean>(false)
+    const startButtonRef = useRef<HTMLButtonElement>(null);
+    const [allowUserInput, setAllowUserInput] = useState<boolean>(false);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
     const [currentValue, setCurrentValue] = useState<number>(-1);
     const [round, setRound] = useState<number>(0);
@@ -57,6 +59,11 @@ export default function useGame() {
 
     const start = () => {
         setGameStarted(true);
+        boardRef.current.classList.remove('initialBoard')
+        startButtonRef.current.classList.remove('fadeIn')
+        startButtonRef.current.classList.add('fadeOut')
+        boardRef.current.classList.remove('tableflip');
+        boardRef.current.classList.add('reverseTableflip')
         addToSequence();
     };
 
@@ -65,6 +72,7 @@ export default function useGame() {
         setRound(0);
         setSequence([]);
         setUserInput([]);
+        setCurrentValue(-1)
         setGameIsNotLost(true);
     };
 
@@ -88,12 +96,16 @@ export default function useGame() {
     useEffect(() => {
         if (!gameIsNotLost) {
             resetGame();
-            boardRef.current?.classList.toggle('tableflip');
+            boardRef.current.classList.remove('reverseTableflip')
+            boardRef.current.classList.add('tableflip');
+            startButtonRef.current.classList.remove('fadeOut')
+            startButtonRef.current.classList.add('fadeIn')
         }
     }, [gameIsNotLost]);
 
     return {
         boardRef,
+        startButtonRef,
         allowUserInput,
         gameStarted,
         round,
