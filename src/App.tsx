@@ -17,7 +17,8 @@ function App() {
         <div className="flex h-full justify-center items-center">
             <StartButton start={start} round={round} forwardRef={startButtonRef}/>
             <GameBoard addNoteToUserInputs={addNoteToUserInputs} round={round}
-                       currentNoteInSequence={currentNoteInSequence} allowUserInputs={allowUserInput}
+                       currentNoteInSequence={currentNoteInSequence}
+                       allowUserInputs={allowUserInput}
                        forwardRef={gameBoardRef}/>
         </div>
     );

@@ -25,7 +25,7 @@ export default function useGame() {
     // STATES
     const [allowUserInput, setAllowUserInput] = useState<boolean>(false);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
-    const [currentNoteInSequence, setCurrentNoteInSequence] = useState<number>(-1);
+    const [currentNoteInSequence, setCurrentNoteInSequence] = useState<{value: number}>({value: 0});
     const [round, setRound] = useState<number>(0);
     const [generatedNotes, setgeneratedNotes] = useState<number[]>([]);
     const [userNotes, setUserNotes] = useState<number[]>([]);
@@ -58,16 +58,17 @@ export default function useGame() {
      * Simulates "play" of the generated number sequence by
      * playing and displaying each note after 500ms.
      */
-    const playNotes = useCallback(async () => {
+    const playNotes = async () => {
         setAllowUserInput(false);
         for (const value of generatedNotes) {
             await delay(1000);
-            setCurrentNoteInSequence(value);
+            setCurrentNoteInSequence({value});
             setPlaybackrate(1 + value * 0.3);
             play();
         }
+        await delay(500);
         setAllowUserInput(true);
-    }, [generatedNotes]);
+    };
 
     /**
      * Adds a random value between 0 and 3 to the sequence state.

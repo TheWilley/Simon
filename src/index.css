@@ -32,6 +32,10 @@
   animation-delay: 0.9s;
 }
 
+.flash {
+  animation: flash 0.5s forwards;
+}
+
 @keyframes tableflip {
   0% {transform: translate(0px, 0px)}
   30% {transform: translate(0px, -100px) rotate3d(1,1,1,130deg); filter: grayscale(100%)}
@@ -54,4 +58,10 @@
   0% {opacity: 0;}
   99.99% {opacity: 1;}
   100% {opacity: 1; position: relative; visibility: visible}
+}
+
+@keyframes flash {
+  0% {filter: brightness(100%)}
+  50% {filter: brightness(200%)}
+  100% {filter: brightness(100%)}
 }
