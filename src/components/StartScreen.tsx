@@ -1,6 +1,6 @@
 import {Ref} from 'react';
 
-function StartButton(props: { start: () => void, round: number, forwardRef: Ref<HTMLButtonElement> }) {
+function StartScreen(props: { start: () => void, round: number, forwardRef: Ref<HTMLButtonElement> }) {
     return (
         <button ref={props.forwardRef} disabled={props.round > 0}
                 onClick={() => props.start()}
@@ -14,4 +14,4 @@ function StartButton(props: { start: () => void, round: number, forwardRef: Ref<
     );
 }
 
-export default StartButton;
+export default StartScreen;

@@ -1,6 +1,6 @@
 import useGame from './game/useGame.ts';
 import GameBoard from './components/GameBoard.tsx';
-import StartButton from './components/StartButton.tsx';
+import StartScreen from './components/StartScreen.tsx';
 
 function App() {
     const {
@@ -15,7 +15,7 @@ function App() {
 
     return (
         <div className="flex h-full justify-center items-center">
-            <StartButton start={start} round={round} forwardRef={startButtonRef}/>
+            <StartScreen start={start} round={round} forwardRef={startButtonRef}/>
             <GameBoard addNoteToUserInputs={addNoteToUserInputs} round={round}
                        currentNoteInSequence={currentNoteInSequence}
                        allowUserInputs={allowUserInput}
