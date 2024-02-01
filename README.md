@@ -2,7 +2,7 @@
 
 This is a React implementation of the memorization game "Simon Says" where a sequence is played and the player have to repeat the same sequence.
 
-The game was made to sharpen my React knowledge and because it's fun. 
+The game was made to sharpen my React knowledge and because it's fun. It was made in about 2 days so nothing too complex.
 
 ## How To Use
 Simply go to the [official webpage](https://thewilley.github.io/simon-says/) to get started, or run the app yourself by following these steps:
