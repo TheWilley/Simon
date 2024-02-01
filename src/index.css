@@ -39,12 +39,12 @@
 @keyframes tableflip {
   0% {transform: translate(0px, 0px)}
   30% {transform: translate(0px, -100px) rotate3d(1,1,1,130deg); filter: grayscale(100%)}
-  99.999% {transform: translate(0px, 500px) rotate3d(1,1,1,400deg); filter: grayscale(100%); position: relative}
+  99.999% {transform: translate(0px, calc(100vh)) rotate3d(1,1,1,400deg); filter: grayscale(100%); position: relative}
   100% {position: fixed; visibility: hidden}
 }
 
 @keyframes reverseTableflip {
-  from{transform: translate(0px, 500px) rotate3d(1,1,1,400deg)}
+  from{transform: translate(0px, calc(100vh)) rotate3d(1,1,1,400deg)}
   to {transform: translate(0px, 0px) rotate3d(0,0,0,0deg); position: relative; visibility: visible}
 }
 
