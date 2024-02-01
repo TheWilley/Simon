@@ -61,7 +61,7 @@ export default function useGame() {
     const playNotes = useCallback(async () => {
         setAllowUserInput(false);
         for (const value of generatedNotes) {
-            await delay(500);
+            await delay(1000);
             setCurrentNoteInSequence(value);
             setPlaybackrate(1 + value * 0.3);
             play();
@@ -75,7 +75,7 @@ export default function useGame() {
     const addRandomNoteToSequence = useCallback(() => {
         const pickedColor = getRandomInt(0, 3);
         setgeneratedNotes([...generatedNotes, pickedColor]);
-    }, []);
+    }, [generatedNotes]);
 
     /**
      * Adds a value to the user inputs state and play the associated note.
@@ -84,7 +84,7 @@ export default function useGame() {
         setUserNotes([...userNotes, value]);
         setPlaybackrate(1 + value * 0.3);
         play();
-    }, [play]);
+    }, [play, userNotes]);
 
     /**
      * Starts the game.
@@ -92,7 +92,7 @@ export default function useGame() {
     const start = useCallback(() => {
         setGameStarted(true);
         addRandomNoteToSequence();
-        animationsHandler.showBoard()
+        animationsHandler.showBoard();
     }, []);
 
     /**
@@ -105,7 +105,7 @@ export default function useGame() {
         setUserNotes([]);
         setCurrentNoteInSequence(-1);
         setGameIsWon(true);
-        animationsHandler.showStart()
+        animationsHandler.showStart();
     }, []);
 
     /**
