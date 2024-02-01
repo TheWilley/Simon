@@ -1,5 +1,5 @@
 import { Ref, useEffect, useRef } from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 function GameBoard(props: {
   addNoteToUserInputs: (value: number) => void;
