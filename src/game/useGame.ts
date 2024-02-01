@@ -39,10 +39,11 @@ export default function useGame() {
   const [boopSound] = useSound(boop, {
     volume: 0.5,
     playbackRate,
-    interrupt: true
+    interrupt: true,
   });
-  const [looseSound] = useSound(loose, {volume: 0.5});
-  const [winSound] = useSound(win, {volume: 0.3});
+
+  const [looseSound] = useSound(loose, { volume: 0.5 });
+  const [winSound] = useSound(win, { volume: 0.3 });
 
   // Class specifics - used for animation
   const animationsHandler = {
@@ -135,7 +136,7 @@ export default function useGame() {
       setGameIsWon(gameCanContinue);
 
       // If we should play loose or win sound
-      if(gameCanContinue) {
+      if (gameCanContinue) {
         boopSound();
       } else {
         looseSound();
