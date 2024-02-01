@@ -1,3 +1,5 @@
+import {Ref} from 'react';
+
 function StartButton(props: { start: () => void, round: number, forwardRef: Ref<HTMLButtonElement> }) {
     return (
         <button ref={props.forwardRef} disabled={props.round > 0}
