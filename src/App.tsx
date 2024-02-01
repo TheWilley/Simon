@@ -9,13 +9,14 @@ function App() {
         gameBoardRef,
         startButtonRef,
         round,
+        highscore,
         addNoteToUserInputs,
         start
     } = useGame();
 
     return (
         <div className="flex h-full justify-center items-center">
-            <StartScreen start={start} round={round} forwardRef={startButtonRef}/>
+            <StartScreen start={start} round={round} highscore={highscore} forwardRef={startButtonRef}/>
             <GameBoard addNoteToUserInputs={addNoteToUserInputs} round={round}
                        currentNoteInSequence={currentNoteInSequence}
                        allowUserInputs={allowUserInput}

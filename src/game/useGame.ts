@@ -1,6 +1,8 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import useSound from 'use-sound';
 import dial from '../sounds/dial.mp3';
+import {useLocalStorage} from '@uidotdev/usehooks';
+
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min: number, max: number) {
@@ -23,9 +25,10 @@ export default function useGame() {
     const startButtonRef = useRef<HTMLButtonElement>(null);
 
     // STATES
+    const [highscore, setHighscore] = useLocalStorage('highscore', 0);
     const [allowUserInput, setAllowUserInput] = useState<boolean>(false);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
-    const [currentNoteInSequence, setCurrentNoteInSequence] = useState<{value: number}>({value: 0});
+    const [currentNoteInSequence, setCurrentNoteInSequence] = useState<{ value: number }>({value: 0});
     const [round, setRound] = useState<number>(0);
     const [generatedNotes, setgeneratedNotes] = useState<number[]>([]);
     const [userNotes, setUserNotes] = useState<number[]>([]);
@@ -104,7 +107,7 @@ export default function useGame() {
         setRound(0);
         setgeneratedNotes([]);
         setUserNotes([]);
-        setCurrentNoteInSequence(-1);
+        setCurrentNoteInSequence({value: -1});
         setGameIsWon(true);
         animationsHandler.showStart();
     }, []);
@@ -137,6 +140,7 @@ export default function useGame() {
      */
     useEffect(() => {
         if (!gameIsWon) {
+            if (round > highscore) setHighscore(round);
             resetGame();
         }
     }, [gameIsWon]);
@@ -147,6 +151,7 @@ export default function useGame() {
         allowUserInput,
         gameStarted,
         round,
+        highscore,
         currentNoteInSequence,
         addRandomNoteToSequence,
         addNoteToUserInputs,
