@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import useSound from 'use-sound';
 import boop from '../sounds/boop.mp3';
 import loose from '../sounds/loose.mp3';
