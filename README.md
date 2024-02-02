@@ -1,4 +1,4 @@
-# simon-says
+# Simon
 
 This is a React implementation of the memorization game "Simon" where a sequence is played and the player have to repeat the same sequence.
 
