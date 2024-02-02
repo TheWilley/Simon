@@ -12,7 +12,7 @@ Simply go to the [official webpage](https://thewilley.github.io/Simon/) to get s
 $ git clone https://github.com/TheWilley/Simon
 
 # Go into the repository
-$ cd simon
+$ cd Simon
 
 # Install dependencies
 $ npm install
