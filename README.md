@@ -5,11 +5,11 @@ This is a React implementation of the memorization game "Simon" where a sequence
 The game was made to sharpen my React knowledge and because it's fun. It was made in about 2 days so nothing too complex.
 
 ## How To Use
-Simply go to the [official webpage](https://thewilley.github.io/simon/) to get started, or run the app yourself by following these steps:
+Simply go to the [official webpage](https://thewilley.github.io/Simon/) to get started, or run the app yourself by following these steps:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/TheWilley/simon
+$ git clone https://github.com/TheWilley/Simon
 
 # Go into the repository
 $ cd simon
@@ -27,4 +27,4 @@ $ npm run preview
 $ npm run dev
 ```
 ## License
-[MIT](https://raw.githubusercontent.com/TheWilley/simon/main/LICENSE)
+[MIT](https://raw.githubusercontent.com/TheWilley/Simon/main/LICENSE)
