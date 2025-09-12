@@ -29,7 +29,7 @@ function StartScreen(props: {
           disabled={props.round > 1}
           className='w-64'
         />
-        <div className='text-white text-sm'>Easy (1000ms) &larr; &rarr; Hard (100ms)</div>
+        <div className='text-white text-sm'>Hard (100ms) &larr; &rarr; Easy (1200ms)</div>
       </div>
       <button
         ref={props.forwardRef}
