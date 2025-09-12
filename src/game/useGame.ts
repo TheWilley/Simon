@@ -6,18 +6,7 @@ import boop from '../sounds/boop.mp3';
 import loose from '../sounds/loose.mp3';
 import win from '../sounds/win.mp3';
 import { useLocalStorage } from '@uidotdev/usehooks';
-
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function arraysAreEqualSoFar<T>(arr1: T[], arr2: T[]) {
-  return JSON.stringify(arr2.slice(0, arr1.length)) === JSON.stringify(arr1);
-}
-
-function delay(time: number) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+import { delay, getRandomInt, arraysAreEqualSoFar } from '../utils/utils';
 
 export default function useGame() {
   // REFS
