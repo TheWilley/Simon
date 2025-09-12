@@ -23,7 +23,7 @@ function CustomSequenceWarning() {
         </a>
         , click{' '}
         <a
-          href='/'
+          href='/Simon/'
           className='text-blue-600 underline hover:text-blue-800 transition-colors'
           rel='noopener noreferrer'
         >
