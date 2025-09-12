@@ -1,4 +1,4 @@
-import { Ref, RefObject } from 'react';
+import { Ref, RefObject, useMemo } from 'react';
 import classNames from 'classnames';
 
 function GameBoard(props: {
@@ -8,12 +8,16 @@ function GameBoard(props: {
   gameboardRef: Ref<HTMLDivElement>;
   playButtonRefs: RefObject<HTMLButtonElement[]>;
 }) {
-  const buttonConfigs = [
-    { color: 'yellow', index: 0 },
-    { color: 'blue', index: 1 },
-    { color: 'green', index: 2 },
-    { color: 'red', index: 3 },
-  ];
+  const colorClasses = useMemo(
+    () => [
+      { bg: 'bg-yellow-600', hover: 'hover:bg-yellow-500' },
+      { bg: 'bg-blue-600', hover: 'hover:bg-blue-500' },
+      { bg: 'bg-green-600', hover: 'hover:bg-green-500' },
+      { bg: 'bg-red-600', hover: 'hover:bg-red-500' },
+    ],
+    []
+  );
+  const buttons = useMemo(() => Array(4).fill(null), []);
 
   return (
     <div>
@@ -22,7 +26,7 @@ function GameBoard(props: {
         className='relative grid grid-cols-2 h-56 w-56 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden transition initialBoard'
         style={{ filter: !props.allowUserInputs ? 'grayscale(40%)' : 'grayscale(0%)' }}
       >
-        {buttonConfigs.map(({ color, index }) => (
+        {buttons.map((_, index) => (
           <button
             key={index}
             ref={(el) => {
@@ -30,8 +34,10 @@ function GameBoard(props: {
                 props.playButtonRefs.current[index] = el;
               }
             }}
-            className={classNames(`bg-${color}-600 cursor-not-allowed`, {
-              [`hover:bg-${color}-500 transition !cursor-pointer`]: props.allowUserInputs,
+            className={classNames(colorClasses[index].bg, {
+              [`${colorClasses[index].hover} transition !cursor-pointer`]:
+                props.allowUserInputs,
+              'cursor-not-allowed': !props.allowUserInputs,
             })}
             disabled={!props.allowUserInputs}
             onClick={() => props.addNoteToUserInputs(index)}
