@@ -12,7 +12,7 @@ function StartScreen(props: {
     <div className='fixed text-center text-2xl md:text-3xl'>
       <div className='text-white font-bold mb-2 bg-gray-800/50 p-4 rounded-lg'>
         {' '}
-        HIGHSCORE: {props.highscore}{' '}
+        HIGHSCORE: <span className='text-purple-500'>{props.highscore} </span>
       </div>
       <div className='mb-4 bg-gray-800/50 p-4 rounded-lg'>
         <label htmlFor='notes-delay' className='block text-white mb-1 text-lg'>
