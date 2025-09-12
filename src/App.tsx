@@ -4,10 +4,10 @@ import StartScreen from './components/StartScreen.tsx';
 
 function App() {
   const {
-    allowUserInput,
-    currentNoteInSequence,
     gameBoardRef,
     startButtonRef,
+    playButtonRefs,
+    allowUserInput,
     round,
     highscore,
     noteDelay,
@@ -29,9 +29,9 @@ function App() {
       <GameBoard
         addNoteToUserInputs={addNoteToUserInputs}
         round={round}
-        currentNoteInSequence={currentNoteInSequence}
         allowUserInputs={allowUserInput}
-        forwardRef={gameBoardRef}
+        gameboardRef={gameBoardRef}
+        playButtonRefs={playButtonRefs}
       />
     </div>
   );

@@ -1,170 +1,161 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import boop from '../sounds/boop.mp3';
 import loose from '../sounds/loose.mp3';
 import win from '../sounds/win.mp3';
 import { useLocalStorage } from '@uidotdev/usehooks';
-import { delay, getRandomInt, arraysAreEqualSoFar } from '../utils/utils';
+import { delay, arraysAreEqualSoFar } from '../utils/utils';
+import { gameReducer, initialGameState } from './gameReducer';
 
 export default function useGame() {
   // REFS
   const gameBoardRef = useRef<HTMLDivElement>(null);
   const startButtonRef = useRef<HTMLButtonElement>(null);
+  const playButtonRefs = useRef<HTMLButtonElement[]>([]);
 
-  // STATES
+  // ANIMATIONS HANDLER
+  const animationsHandler = useMemo(
+    () => ({
+      showBoard: () => {
+        gameBoardRef.current?.classList.remove('initialBoard');
+        startButtonRef.current?.classList.remove('fadeIn');
+        startButtonRef.current?.classList.add('fadeOut');
+        gameBoardRef.current?.classList.remove('tableflip');
+        gameBoardRef.current?.classList.add('reverseTableflip');
+      },
+      showStart: () => {
+        gameBoardRef.current?.classList.remove('reverseTableflip');
+        gameBoardRef.current?.classList.add('tableflip');
+        startButtonRef.current?.classList.remove('fadeOut');
+        startButtonRef.current?.classList.add('fadeIn');
+      },
+    }),
+    []
+  );
+
+  // PERSISTED HIGH SCORE
   const [highscore, setHighscore] = useLocalStorage('highscore', 0);
+
+  // GAME REDUCER (sequence + user inputs + round + current note + win flag)
+  const [state, dispatch] = useReducer(gameReducer, initialGameState);
+
+  // CONTROL STATES
   const [allowUserInput, setAllowUserInput] = useState<boolean>(false);
-  const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [currentNoteInSequence, setCurrentNoteInSequence] = useState<{ value: number }>({
-    value: 0,
-  });
-  const [round, setRound] = useState<number>(1);
-  const [generatedNotes, setgeneratedNotes] = useState<number[]>([]);
-  const [userNotes, setUserNotes] = useState<number[]>([]);
-  const [gameIsWon, setGameIsWon] = useState<boolean>(true);
-  const [playbackRate, setPlaybackrate] = useState<number>(0.75);
   const [noteDelay, setNoteDelay] = useState<number>(1000);
 
-  // HOOKS
-  const [boopSound] = useSound(boop, {
-    volume: 0.5,
-    playbackRate,
-    interrupt: true,
-  });
-
+  const [boopSound] = useSound(boop, { volume: 0.5, interrupt: true });
   const [looseSound] = useSound(loose, { volume: 0.5 });
   const [winSound] = useSound(win, { volume: 0.3 });
 
-  // Class specifics - used for animation
-  const animationsHandler = {
-    showBoard: () => {
-      gameBoardRef.current?.classList.remove('initialBoard');
-      startButtonRef.current?.classList.remove('fadeIn');
-      startButtonRef.current?.classList.add('fadeOut');
-      gameBoardRef.current?.classList.remove('tableflip');
-      gameBoardRef.current?.classList.add('reverseTableflip');
-    },
-    showStart: () => {
-      gameBoardRef.current?.classList.remove('reverseTableflip');
-      gameBoardRef.current?.classList.add('tableflip');
-      startButtonRef.current?.classList.remove('fadeOut');
-      startButtonRef.current?.classList.add('fadeIn');
-    },
-  };
+  /**
+   * Toggle flash class on a button to create a flash effect.
+   */
+  const toggleFlash = useCallback((button: HTMLButtonElement | null) => {
+    if (button) {
+      button.classList.remove('flash');
+
+      void button.offsetWidth;
+
+      button.classList.add('flash');
+    }
+  }, []);
 
   /**
-   * Simulates "play" of the generated number sequence by
-   * playing and displaying each note after 500ms.
+   * Play the generated sequence.
    */
-  const playNotes = async () => {
+  const playNotes = useCallback(async () => {
     setAllowUserInput(false);
-    for (const value of generatedNotes) {
+    for (const value of state.generatedNotes) {
       await delay(noteDelay);
-      setCurrentNoteInSequence({ value });
-      setPlaybackrate(1 + value * 0.3);
-      boopSound();
+      // flash note here instead of in GameBoard
+      toggleFlash(playButtonRefs.current[value]);
+      const rate = 1 + value * 0.3;
+      boopSound({ playbackRate: rate });
     }
     await delay(500);
     setAllowUserInput(true);
-  };
+  }, [state.generatedNotes, noteDelay, toggleFlash, playButtonRefs, boopSound]);
 
   /**
-   * Adds a random value between 0 and 3 to the sequence state.
-   */
-  const addRandomNoteToSequence = useCallback(() => {
-    const pickedColor = getRandomInt(0, 3);
-    setgeneratedNotes([...generatedNotes, pickedColor]);
-  }, [generatedNotes]);
-
-  /**
-   * Adds a value to the user inputs state and play the associated note.
+   * Add user's pressed note (fires when the user physically presses a pad).
    */
   const addNoteToUserInputs = useCallback(
     (value: number) => {
-      setUserNotes([...userNotes, value]);
-      setPlaybackrate(1 + value * 0.3);
+      dispatch({ type: 'ADD_USER_NOTE', value });
+      const rate = 1 + value * 0.3;
+      boopSound({ playbackRate: rate });
     },
-    [boopSound, userNotes]
+    [boopSound]
   );
 
   /**
-   * Starts the game.
+   * Convenience: dispatch an action to add a random note.
+   */
+  const addRandomNoteToSequence = useCallback(() => {
+    dispatch({ type: 'ADD_RANDOM_NOTE' });
+  }, []);
+
+  /**
+   * Start game UI + seed the first note.
    */
   const start = useCallback(() => {
-    setGameStarted(true);
     setAllowUserInput(false);
     animationsHandler.showBoard();
 
-    // Wait 1 second before starting the game
-    delay(1000).then(() => {
-      addRandomNoteToSequence();
-    });
-  }, []);
+    delay(1000 - noteDelay).then(() => addRandomNoteToSequence());
+  }, [addRandomNoteToSequence, animationsHandler, noteDelay]);
 
   /**
-   * Resets the game states.
+   * Reset game to initial values.
    */
   const resetGame = useCallback(() => {
-    setGameStarted(false);
-    setgeneratedNotes([]);
-    setUserNotes([]);
-    setCurrentNoteInSequence({ value: -1 });
-    setGameIsWon(true);
+    dispatch({ type: 'RESET' });
     animationsHandler.showStart();
-    setRound(1);
-  }, []);
+  }, [animationsHandler]);
 
-  /**
-   * Every time the sequence state is updated, we run the `play` function.
-   */
+  // When the sequence changes, play it back
   useEffect(() => {
-    playNotes();
-  }, [JSON.stringify(generatedNotes)]);
+    if (state.generatedNotes.length > 0) playNotes();
+  }, [state.generatedNotes, playNotes]);
 
-  /**
-   * Every time the user presses a note, we check if it's the correct one
-   * and if we can move on to the next round.
-   */
+  // Whenever the user adds input, check correctness and progress/win/lose
   useEffect(() => {
-    if (generatedNotes.length > 0) {
-      const gameCanContinue = arraysAreEqualSoFar(userNotes, generatedNotes);
-      setGameIsWon(gameCanContinue);
+    if (state.generatedNotes.length === 0) return;
 
-      // If we should play loose or win sound
-      if (gameCanContinue) {
-        boopSound();
-      } else {
-        looseSound();
+    const gameCanContinue = arraysAreEqualSoFar(state.userNotes, state.generatedNotes);
+
+    if (!gameCanContinue) {
+      looseSound();
+      if (state.round > highscore) {
+        setHighscore(state.round);
       }
-
-      // Check if we can continue to the next round
-      if (userNotes.length === generatedNotes.length && gameCanContinue) {
-        addRandomNoteToSequence();
-        setUserNotes([]);
-        setRound(round + 1);
-        winSound();
-      }
-    }
-  }, [JSON.stringify(userNotes)]);
-
-  /**
-   * Checks if the game is lost, and resets game if it is.
-   */
-  useEffect(() => {
-    if (!gameIsWon) {
-      if (round > highscore) setHighscore(round);
       resetGame();
+    } else {
+      // If user finished the sequence correctly, progress to next round
+      if (state.userNotes.length === state.generatedNotes.length && gameCanContinue) {
+        winSound();
+        dispatch({ type: 'ADD_RANDOM_NOTE' });
+        dispatch({ type: 'NEXT_ROUND' });
+      }
     }
-  }, [gameIsWon]);
+  }, [
+    state.userNotes,
+    state.generatedNotes,
+    looseSound,
+    winSound,
+    state.round,
+    highscore,
+    resetGame,
+    setHighscore,
+  ]);
 
   return {
     gameBoardRef,
     startButtonRef,
+    playButtonRefs,
     allowUserInput,
-    gameStarted,
-    round,
+    round: state.round,
     highscore,
-    currentNoteInSequence,
     noteDelay,
     setNoteDelay,
     addRandomNoteToSequence,
