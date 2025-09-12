@@ -4,15 +4,22 @@ function StartScreen(props: {
   start: () => void;
   round: number;
   highscore: number;
+  lastScore: number;
   forwardRef: Ref<HTMLButtonElement>;
   notesDelay: number;
   setNotesDelay: (value: number) => void;
 }) {
   return (
-    <div className='fixed text-center text-2xl md:text-3xl'>
+    <div
+      className='fixed text-center text-2xl md:text-3xl overflow-hidden transition-all duration-700 ease-in-out '
+      style={{
+        height: props.round >= 1 ? '0' : '400px',
+        opacity: props.round >= 1 ? '0' : '1',
+      }}
+    >
       <div className='text-white font-bold mb-2 bg-gray-800/50 p-4 rounded-lg'>
-        {' '}
-        HIGHSCORE: <span className='text-purple-500'>{props.highscore} </span>
+        <div className='text-purple-500'>HIGHSCORE: {props.highscore}</div>
+        <div className='text-blue-500'>LAST SCORE: {props.lastScore}</div>
       </div>
       <div className='mb-4 bg-gray-800/50 p-4 rounded-lg'>
         <label htmlFor='notes-delay' className='block text-white mb-1 text-lg'>

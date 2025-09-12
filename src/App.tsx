@@ -11,6 +11,7 @@ function App() {
     round,
     highscore,
     noteDelay,
+    lastScore,
     setNoteDelay,
     addNoteToUserInputs,
     start,
@@ -24,6 +25,7 @@ function App() {
         highscore={highscore}
         forwardRef={startButtonRef}
         notesDelay={noteDelay}
+        lastScore={lastScore}
         setNotesDelay={setNoteDelay}
       />
       <GameBoard

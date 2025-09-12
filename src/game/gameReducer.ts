@@ -15,7 +15,7 @@ export type GameAction =
 export const initialGameState: GameState = {
   generatedNotes: [],
   userNotes: [],
-  round: 1,
+  round: 0,
 };
 
 export function gameReducer(state: GameState, action: GameAction): GameState {

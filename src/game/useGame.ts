@@ -36,6 +36,9 @@ export default function useGame() {
   // PERSISTED HIGH SCORE
   const [highscore, setHighscore] = useLocalStorage('highscore', 0);
 
+  // NON-PERSISTED LAST SCORE
+  const [lastScore, setLastScore] = useState(0);
+
   // GAME REDUCER (sequence + user inputs + round + current note + win flag)
   const [state, dispatch] = useReducer(gameReducer, initialGameState);
 
@@ -101,6 +104,7 @@ export default function useGame() {
   const start = useCallback(() => {
     setAllowUserInput(false);
     animationsHandler.showBoard();
+    dispatch({ type: 'NEXT_ROUND' });
 
     delay(1000 - noteDelay).then(() => addRandomNoteToSequence());
   }, [addRandomNoteToSequence, animationsHandler, noteDelay]);
@@ -129,6 +133,7 @@ export default function useGame() {
       if (state.round > highscore) {
         setHighscore(state.round);
       }
+      setLastScore(state.round);
       resetGame();
     } else {
       // If user finished the sequence correctly, progress to next round
@@ -155,6 +160,7 @@ export default function useGame() {
     playButtonRefs,
     allowUserInput,
     round: state.round,
+    lastScore,
     highscore,
     noteDelay,
     setNoteDelay,
