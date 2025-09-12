@@ -5,10 +5,31 @@ function StartScreen(props: {
   round: number;
   highscore: number;
   forwardRef: Ref<HTMLButtonElement>;
+  notesDelay: number;
+  setNotesDelay: (value: number) => void;
 }) {
   return (
     <div className='fixed text-center text-2xl md:text-3xl'>
       <div className='text-white font-bold mb-2'> HIGHSCORE: {props.highscore} </div>
+      <div className='mb-4'>
+        <label htmlFor="notes-delay" className='block text-white mb-1 text-lg'>
+          Difficulty (Notes Delay): {props.notesDelay}ms
+        </label>
+        <input
+          id="notes-delay"
+          type="range"
+          min={100}
+          max={1200}
+          step={100}
+          value={props.notesDelay}
+          onChange={e => props.setNotesDelay(Number(e.target.value))}
+          disabled={props.round > 1}
+          className='w-64'
+        />
+        <div className='text-white text-sm'>
+          Easy (1000ms) &larr; &rarr; Hard (100ms)
+        </div>
+      </div>
       <button
         ref={props.forwardRef}
         disabled={props.round > 1}

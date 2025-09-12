@@ -25,6 +25,7 @@ export default function useGame() {
   const [userNotes, setUserNotes] = useState<number[]>([]);
   const [gameIsWon, setGameIsWon] = useState<boolean>(true);
   const [playbackRate, setPlaybackrate] = useState<number>(0.75);
+  const [noteDelay, setNoteDelay] = useState<number>(1000);
 
   // HOOKS
   const [boopSound] = useSound(boop, {
@@ -60,7 +61,7 @@ export default function useGame() {
   const playNotes = async () => {
     setAllowUserInput(false);
     for (const value of generatedNotes) {
-      await delay(1000);
+      await delay(noteDelay);
       setCurrentNoteInSequence({ value });
       setPlaybackrate(1 + value * 0.3);
       boopSound();
@@ -93,8 +94,13 @@ export default function useGame() {
    */
   const start = useCallback(() => {
     setGameStarted(true);
-    addRandomNoteToSequence();
+    setAllowUserInput(false);
     animationsHandler.showBoard();
+
+    // Wait 1 second before starting the game
+    delay(1000).then(() => {
+      addRandomNoteToSequence();
+    });
   }, []);
 
   /**
@@ -161,6 +167,8 @@ export default function useGame() {
     round,
     highscore,
     currentNoteInSequence,
+    noteDelay,
+    setNoteDelay,
     addRandomNoteToSequence,
     addNoteToUserInputs,
     start,

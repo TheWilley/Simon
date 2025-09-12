@@ -10,6 +10,8 @@ function App() {
     startButtonRef,
     round,
     highscore,
+    noteDelay,
+    setNoteDelay,
     addNoteToUserInputs,
     start,
   } = useGame();
@@ -21,6 +23,8 @@ function App() {
         round={round}
         highscore={highscore}
         forwardRef={startButtonRef}
+        notesDelay={noteDelay}
+        setNotesDelay={setNoteDelay}
       />
       <GameBoard
         addNoteToUserInputs={addNoteToUserInputs}
