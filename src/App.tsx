@@ -1,6 +1,7 @@
 import useGame from './game/useGame.ts';
 import GameBoard from './components/GameBoard.tsx';
 import StartScreen from './components/StartScreen.tsx';
+import GithubCorner from './components/GithubCorner.tsx';
 
 function App() {
   const {
@@ -35,6 +36,7 @@ function App() {
         gameboardRef={gameBoardRef}
         playButtonRefs={playButtonRefs}
       />
+      <GithubCorner url='https://github.com/TheWilley/Simon' />
     </div>
   );
 }
