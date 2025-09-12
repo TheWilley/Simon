@@ -5,6 +5,7 @@ import GithubCorner from './components/GithubCorner.tsx';
 
 function App() {
   const {
+    usesUrlSequence,
     gameBoardRef,
     startButtonRef,
     playButtonRefs,
@@ -22,6 +23,7 @@ function App() {
     <div className='flex h-full justify-center items-center'>
       <StartScreen
         start={start}
+        usesUrlSequence={usesUrlSequence}
         round={round}
         highscore={highscore}
         forwardRef={startButtonRef}

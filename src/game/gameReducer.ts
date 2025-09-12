@@ -8,6 +8,7 @@ export interface GameState {
 
 export type GameAction =
   | { type: 'ADD_RANDOM_NOTE' }
+  | { type: 'ADD_MANUAL_NOTE'; value: number }
   | { type: 'ADD_USER_NOTE'; value: number }
   | { type: 'NEXT_ROUND' }
   | { type: 'RESET' };
@@ -24,6 +25,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         generatedNotes: [...state.generatedNotes, getRandomInt(0, 3)],
+      };
+
+    case 'ADD_MANUAL_NOTE':
+      return {
+        ...state,
+        generatedNotes: [...state.generatedNotes, action.value],
       };
 
     case 'ADD_USER_NOTE':
