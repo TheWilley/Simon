@@ -16,8 +16,8 @@
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
     "classnames": "^2.5.1",
-    "gh-pages": "^6.1.1",
-    "prettier": "^3.2.4",
+    "gh-pages": "^6.3.0",
+    "prettier": "^3.8.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "use-sound": "^5.0.0"
