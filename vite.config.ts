@@ -1,7 +1,8 @@
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default {
-  plugins: [react()],
-  base: '/Simon/'
+  plugins: [react(), tailwindcss()],
+  base: '/Simon/',
 };
