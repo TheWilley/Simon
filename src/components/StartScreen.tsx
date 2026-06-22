@@ -1,9 +1,7 @@
 import { type Ref } from 'react';
-import CustomSequenceWarning from './CustomSequenceWarning';
 
 function StartScreen(props: {
   start: () => void;
-  usesUrlSequence: boolean;
   round: number;
   highscore: number;
   lastScore: number;
@@ -19,7 +17,6 @@ function StartScreen(props: {
         opacity: props.round >= 1 ? '0' : '1',
       }}
     >
-      {props.usesUrlSequence && <CustomSequenceWarning />}
       <div className='text-white font-bold mb-2 bg-gray-800/50 p-4 rounded-lg'>
         <div className='text-purple-500'>HIGHSCORE: {props.highscore}</div>
         <div className='text-blue-500'>LAST SCORE: {props.lastScore}</div>

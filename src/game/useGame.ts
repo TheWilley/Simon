@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import boop from '../sounds/boop.mp3';
 import loose from '../sounds/loose.mp3';
@@ -6,7 +6,6 @@ import win from '../sounds/win.mp3';
 import { useLocalStorage } from '@uidotdev/usehooks';
 import { delay, arraysAreEqualSoFar } from '../utils/utils';
 import { gameReducer, initialGameState } from './gameReducer';
-import useSequenceFromUrl from './useSequenceFromUrl';
 import { useGameAnimations } from './animations';
 
 export default function useGame() {
@@ -24,16 +23,12 @@ export default function useGame() {
   // NON-PERSISTED LAST SCORE
   const [lastScore, setLastScore] = useState(0);
 
-  // CUSTOM SEQUENCE FROM URL
-  const urlSequence = useSequenceFromUrl();
-
   // GAME REDUCER (sequence + user inputs + round + current note + win flag)
   const [state, dispatch] = useReducer(gameReducer, initialGameState);
 
   // CONTROL STATES
   const [allowUserInput, setAllowUserInput] = useState<boolean>(false);
   const [noteDelay, setNoteDelay] = useState<number>(1000);
-  const usesUrlSequence = useMemo(() => urlSequence.length > 0, [urlSequence]);
 
   const [boopSound] = useSound(boop, { volume: 0.5, interrupt: true });
   const [looseSound] = useSound(loose, { volume: 0.5 });
@@ -71,12 +66,8 @@ export default function useGame() {
    * Convenience: dispatch an action to add a note.
    */
   const addNoteToSequence = useCallback(() => {
-    if (urlSequence.length > 0 && state.round < urlSequence.length) {
-      dispatch({ type: 'ADD_MANUAL_NOTE', value: urlSequence[state.round] });
-    } else {
-      dispatch({ type: 'ADD_RANDOM_NOTE' });
-    }
-  }, [state.round, urlSequence]);
+    dispatch({ type: 'ADD_RANDOM_NOTE' });
+  }, []);
 
   /**
    * Start game UI + seed the first note.
@@ -144,7 +135,6 @@ export default function useGame() {
     lastScore,
     highscore,
     noteDelay,
-    usesUrlSequence,
     setNoteDelay,
     addNoteToUserInputs,
     start,
