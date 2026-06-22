@@ -1,4 +1,4 @@
-import { Ref, RefObject, useMemo } from 'react';
+import { useMemo, type Ref, type RefObject } from 'react';
 import classNames from 'classnames';
 
 function GameBoard(props: {
@@ -23,7 +23,7 @@ function GameBoard(props: {
     <div>
       <div
         ref={props.gameboardRef}
-        className='relative grid grid-cols-2 h-56 w-56 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden transition initialBoard'
+        className='grid grid-cols-2 h-56 w-56 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden initialBoard'
         style={{ filter: !props.allowUserInputs ? 'grayscale(40%)' : 'grayscale(0%)' }}
       >
         {buttons.map((_, index) => (
@@ -35,8 +35,7 @@ function GameBoard(props: {
               }
             }}
             className={classNames(colorClasses[index].bg, {
-              [`${colorClasses[index].hover} transition !cursor-pointer`]:
-                props.allowUserInputs,
+              [`${colorClasses[index].hover} cursor-pointer!`]: props.allowUserInputs,
               'cursor-not-allowed': !props.allowUserInputs,
             })}
             disabled={!props.allowUserInputs}
@@ -44,7 +43,7 @@ function GameBoard(props: {
           />
         ))}
 
-        <div className='absolute h-[35px] w-[35px] right-[calc(50%-17.5px)] top-[calc(50%-17.5px)] bg-gray-300 rounded-full align-middle leading-[35px] text-center text-xl'>
+        <div className='absolute h-8.75 w-8.75 right-[calc(50%-17.5px)] top-[calc(50%-17.5px)] bg-gray-300 rounded-full align-middle leading-8.75 text-center text-xl'>
           {props.round}
         </div>
       </div>

@@ -7,6 +7,7 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { delay, arraysAreEqualSoFar } from '../utils/utils';
 import { gameReducer, initialGameState } from './gameReducer';
 import useSequenceFromUrl from './useSequenceFromUrl';
+import { useGameAnimations } from './animations';
 
 export default function useGame() {
   // REFS
@@ -14,25 +15,8 @@ export default function useGame() {
   const startButtonRef = useRef<HTMLButtonElement>(null);
   const playButtonRefs = useRef<HTMLButtonElement[]>([]);
 
-  // ANIMATIONS HANDLER
-  const animationsHandler = useMemo(
-    () => ({
-      showBoard: () => {
-        gameBoardRef.current?.classList.remove('initialBoard');
-        startButtonRef.current?.classList.remove('fadeIn');
-        startButtonRef.current?.classList.add('fadeOut');
-        gameBoardRef.current?.classList.remove('tableflip');
-        gameBoardRef.current?.classList.add('reverseTableflip');
-      },
-      showStart: () => {
-        gameBoardRef.current?.classList.remove('reverseTableflip');
-        gameBoardRef.current?.classList.add('tableflip');
-        startButtonRef.current?.classList.remove('fadeOut');
-        startButtonRef.current?.classList.add('fadeIn');
-      },
-    }),
-    []
-  );
+  // ANIMATION HANDLER
+  const animationsHandler = useGameAnimations(gameBoardRef, startButtonRef);
 
   // PERSISTED HIGH SCORE
   const [highscore, setHighscore] = useLocalStorage('highscore', 0);
@@ -56,19 +40,6 @@ export default function useGame() {
   const [winSound] = useSound(win, { volume: 0.3 });
 
   /**
-   * Toggle flash class on a button to create a flash effect.
-   */
-  const toggleFlash = useCallback((button: HTMLButtonElement | null) => {
-    if (button) {
-      button.classList.remove('flash');
-
-      void button.offsetWidth;
-
-      button.classList.add('flash');
-    }
-  }, []);
-
-  /**
    * Play the generated sequence.
    */
   const playNotes = useCallback(async () => {
@@ -76,13 +47,13 @@ export default function useGame() {
     for (const value of state.generatedNotes) {
       await delay(noteDelay);
       // flash note here instead of in GameBoard
-      toggleFlash(playButtonRefs.current[value]);
+      animationsHandler.flash(playButtonRefs.current[value]);
       const rate = 1 + value * 0.3;
       boopSound({ playbackRate: rate });
     }
     await delay(500);
     setAllowUserInput(true);
-  }, [state.generatedNotes, noteDelay, toggleFlash, playButtonRefs, boopSound]);
+  }, [state.generatedNotes, noteDelay, playButtonRefs, boopSound]);
 
   /**
    * Add user's pressed note (fires when the user physically presses a pad).

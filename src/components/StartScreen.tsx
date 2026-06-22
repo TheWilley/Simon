@@ -1,4 +1,4 @@
-import { Ref } from 'react';
+import { type Ref } from 'react';
 import CustomSequenceWarning from './CustomSequenceWarning';
 
 function StartScreen(props: {
@@ -13,7 +13,7 @@ function StartScreen(props: {
 }) {
   return (
     <div
-      className='fixed text-center text-2xl md:text-3xl overflow-hidden transition-all duration-700 ease-in-out '
+      className='fixed text-center text-2xl md:text-3xl overflow-hidden duration-700 ease-in-out '
       style={{
         height: props.round >= 1 ? '0' : '400px',
         opacity: props.round >= 1 ? '0' : '1',
