@@ -34,16 +34,16 @@ $ git clone https://github.com/TheWilley/Simon
 $ cd Simon
 
 # Install dependencies
-$ npm install
+$ bun install
 
 # Build app
-$ npm run build
+$ bun run build
 
 # If you want to start the app
-$ npm run preview
+$ bun run preview
 
 # If you want to develop the app
-$ npm run dev
+$ bun run dev
 ```
 
 ## License
