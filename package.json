@@ -16,8 +16,6 @@
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
     "classnames": "^2.5.1",
-    "gh-pages": "^6.3.0",
-    "prettier": "^3.8.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "use-sound": "^5.0.0"
@@ -32,7 +30,9 @@
     "eslint": "^10.5.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
+    "gh-pages": "^6.3.0",
     "jiti": "^2.7.0",
+    "prettier": "^3.8.4",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
